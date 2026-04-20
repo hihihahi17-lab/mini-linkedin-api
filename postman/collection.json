@@ -3,29 +3,316 @@
     "name": "Mini LinkedIn API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000/api"
+    },
+    {
+      "key": "token",
+      "value": ""
+    }
+  ],
   "item": [
     {
-      "name": "Register",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/register",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Ahmed Test\",\n  \"email\": \"ahmed@test.com\",\n  \"password\": \"123456\",\n  \"role\": \"candidat\"\n}"
+            }
           }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"name\": \"test user\",\n  \"email\": \"test@example.com\",\n  \"password\": \"123456\"\n}"
         },
-        "url": {
-          "raw": "http://localhost:8000/api/register",
-          "protocol": "http",
-          "host": ["localhost"],
-          "port": "8000",
-          "path": ["api", "register"]
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/login",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"ahmed@test.com\",\n  \"password\": \"123456\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/logout",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ]
+          }
+        },
+        {
+          "name": "Me",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/me",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}]
+          }
         }
-      }
+      ]
+    },
+    {
+      "name": "Profil",
+      "item": [
+        {
+          "name": "Créer profil",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/profil",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titre\": \"Développeur Full Stack\",\n  \"bio\": \"Passionné par le développement web\",\n  \"localisation\": \"Casablanca\",\n  \"disponible\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Voir profil",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/profil",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}]
+          }
+        },
+        {
+          "name": "Modifier profil",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/profil",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titre\": \"Développeur Backend Senior\",\n  \"disponible\": false\n}"
+            }
+          }
+        },
+        {
+          "name": "Ajouter compétence",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/profil/competences",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"competence_id\": 1,\n  \"niveau\": \"expert\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Retirer compétence",
+          "request": {
+            "method": "DELETE",
+            "url": "{{base_url}}/profil/competences/1",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Offres",
+      "item": [
+        {
+          "name": "Liste offres",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/offres?localisation=Casablanca&type=CDI",
+              "host": ["{{base_url}}"],
+              "path": ["offres"],
+              "query": [
+                {"key": "localisation", "value": "Casablanca"},
+                {"key": "type", "value": "CDI"}
+              ]
+            },
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}]
+          }
+        },
+        {
+          "name": "Détail offre",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/offres/1",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}]
+          }
+        },
+        {
+          "name": "Créer offre (recruteur)",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/offres",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titre\": \"Développeur Laravel\",\n  \"description\": \"Nous cherchons un développeur Laravel expérimenté\",\n  \"localisation\": \"Casablanca\",\n  \"type\": \"CDI\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Modifier offre (recruteur)",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/offres/1",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titre\": \"Développeur Laravel Senior\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Supprimer offre (recruteur)",
+          "request": {
+            "method": "DELETE",
+            "url": "{{base_url}}/offres/1",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Candidatures",
+      "item": [
+        {
+          "name": "Postuler",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/offres/1/candidater",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"Je suis très motivé pour ce poste\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Mes candidatures",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/mes-candidatures",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}]
+          }
+        },
+        {
+          "name": "Candidatures reçues (recruteur)",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/offres/1/candidatures",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}]
+          }
+        },
+        {
+          "name": "Changer statut",
+          "request": {
+            "method": "PATCH",
+            "url": "{{base_url}}/candidatures/1/statut",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"statut\": \"acceptee\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Liste utilisateurs",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/admin/users",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}]
+          }
+        },
+        {
+          "name": "Supprimer utilisateur",
+          "request": {
+            "method": "DELETE",
+            "url": "{{base_url}}/admin/users/1",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}]
+          }
+        },
+        {
+          "name": "Toggle offre",
+          "request": {
+            "method": "PATCH",
+            "url": "{{base_url}}/admin/offres/1",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Erreurs",
+      "item": [
+        {
+          "name": "401 — Sans token",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/profil"
+          }
+        },
+        {
+          "name": "403 — Mauvais rôle",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/offres",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token_candidat}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titre\": \"Test\",\n  \"description\": \"Test\",\n  \"localisation\": \"Rabat\",\n  \"type\": \"CDI\"\n}"
+            }
+          }
+        },
+        {
+          "name": "422 — Données invalides",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/register",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"\",\n  \"email\": \"pasunemail\",\n  \"password\": \"123\"\n}"
+            }
+          }
+        }
+      ]
     }
   ]
 }
