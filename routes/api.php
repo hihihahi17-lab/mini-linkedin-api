@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfilController;
+use App\Http\Controllers\AdminController;
 
 Route::middleware('auth:api')->group(function () {
 
@@ -26,4 +27,8 @@ Route::middleware('auth:api')->group(function () {
 
     
 });
-
+Route::middleware('role:admin')->prefix('admin')->group(function () {
+    Route::get('/users',            [AdminController::class, 'users']);
+    Route::delete('/users/{user}',  [AdminController::class, 'deleteUser']);
+    Route::patch('/offres/{offre}', [AdminController::class, 'toggleOffre']);
+});
