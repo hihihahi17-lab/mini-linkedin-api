@@ -10,18 +10,19 @@ class Candidature extends Model
     use HasFactory;
 
     protected $fillable = [
-        'profil_id',
         'offre_id',
-        'statut',
+        'profil_id',
+        'message',
+        'statut'
     ];
-
-    public function profil()
-    {
-        return $this->belongsTo(Profil::class);
-    }
 
     public function offre()
     {
         return $this->belongsTo(Offre::class);
+    }
+
+    public function profil()
+    {
+        return $this->belongsTo(Profil::class);
     }
 }

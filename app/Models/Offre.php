@@ -15,12 +15,12 @@ class Offre extends Model
         'description',
         'localisation',
         'type',
-        'actif',
+        'actif'
     ];
 
-    public function user()
+    public function recruteur()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function candidatures()
