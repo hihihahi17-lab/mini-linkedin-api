@@ -33,3 +33,5 @@ composer install
 php artisan jwt:secret
 cp .env.example .env
 php artisan key:generate
+cp .env.example .env
+php artisan key:generate
