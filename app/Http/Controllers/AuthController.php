@@ -54,7 +54,7 @@ class AuthController extends Controller
         ]);
     }
 
-    // تسجيل الخروج
+  
     public function logout()
     {
         auth()->logout();
