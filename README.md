@@ -30,5 +30,8 @@ It provides authentication, profile management, job offers, and candidature feat
 git clone https://github.com/hihihahi17-lab/mini-linkedin-api.git
 cd mini-linkedin-api
 composer install
+php artisan jwt:secret
+cp .env.example .env
+php artisan key:generate
 cp .env.example .env
 php artisan key:generate
